@@ -1,0 +1,107 @@
+<?php
+
+
+function confirm_ajax_remove_menu() {
+  $items = array();
+  
+  $items['admin/config/user-interface/confirm-ajax-remove'] = array (
+    'title' => 'Confirm ajax remove settings',
+    'page callback' => 'backdrop_get_form',
+    'page arguments' => array('confirm_ajax_remove_config_form'),
+    'access arguments' => array('administer confirm_ajax_remove'),
+  );
+  
+  return $items;
+}
+
+
+
+function confirm_ajax_remove_permission() {
+  return array(
+    'administer confirm_ajax_remove' => array(
+      'title' => t('Administer confirm ajax remove settings'),
+    ),
+  );
+}
+
+
+function confirm_ajax_remove_config_info() {
+  $prefixes['confirm_ajax_remove.settings'] = array(
+    'label' => t('Confirm Ajax Remove'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
+
+
+function confirm_ajax_remove_config_form() {
+  $form = array();
+  
+  $form['#config'] = "confirm_ajax_remove.settings";
+  $config = config('confirm_ajax_remove.settings');
+
+  
+  $form['car_dialog_title'] = array(
+    '#title' => t('Title of confirmation dialog'),
+    '#type' => 'textfield',
+    '#default_value' => $config->get('car_dialog_title') ?? t('Confirm Removal'),
+    '#description' => t('If unsure, enter <em>Confirm Removal</em>.'),
+  );
+  
+  
+  $form['car_dialog_text'] = array(
+    '#title' => t('Text of confirmation dialog'),
+    '#type' => 'textarea',
+    '#default_value' => $config->get('car_dialog_text') ?? t('Are you sure you wish to remove this item?'),
+    '#description' => t('This text appears just above the Cancel and Remove buttons.  If unsure, enter <em>Are you sure you wish to remove this item?</em>.'),
+  );
+  
+  
+  $form['car_dialog_cancel_text'] = array(
+    '#title' => t('Text of Cancel button'),
+    '#type' => 'textfield',
+    '#default_value' => $config->get('car_dialog_cancel_text') ?? t('Cancel'),
+    '#description' => t('If unsure, enter <em>Cancel</em>.'),
+  );
+  
+  $form['car_dialog_remove_text'] = array(
+    '#title' => t('Text of Remove button'),
+    '#type' => 'textfield',
+    '#default_value' => $config->get('car_dialog_remove_text') ?? t('Remove'),
+    '#description' => t('If unsure, enter <em>Remove</em>.'),
+  );
+  
+  
+  
+  
+  return system_settings_form($form);
+}
+
+
+
+/**
+ * Implements hook_init
+ */
+function confirm_ajax_remove_init() {
+  
+  // Add our custom CSS and JS file on page load.
+  backdrop_add_css(backdrop_get_path('module', 'confirm_ajax_remove') . '/css/confirm_ajax_remove.css');
+  backdrop_add_js(backdrop_get_path('module', 'confirm_ajax_remove') . '/js/confirm_ajax_remove.js');
+
+  
+  // Add JS settings so we can show customized text in the dialog.
+  $config = config('confirm_ajax_remove.settings');
+  $arr = array(
+    'car_dialog_title' => check_plain($config->get('car_dialog_title') ?? t('Confirm Removal')),
+    'car_dialog_text' => check_plain($config->get('car_dialog_text') ?? t('Are you sure you wish to remove this item?')),
+    'car_dialog_cancel_text' => check_plain($config->get('car_dialog_cancel_text') ?? t('Cancel')),
+    'car_dialog_remove_text' => check_plain($config->get('car_dialog_remove_text') ?? t('Remove')),
+  );
+  
+  
+  backdrop_add_js($arr, 'setting');
+  
+  
+}
+
+

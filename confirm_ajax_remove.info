@@ -1,0 +1,5 @@
+name = Confirm ajax remove
+type = module
+description = When clicking "Remove" button (eg, for an unlimited field_collection), first show a confirmation box.
+backdrop = 1.x
+configure = admin/config/user-interface/confirm-ajax-remove

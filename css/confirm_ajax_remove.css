@@ -1,0 +1,44 @@
+#car-remove-confirm-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+.car-rcm-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+.car-rcm-dialog {
+  position: relative;
+  width: 400px;
+  max-width: 90%;
+  margin: 15% auto;
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  z-index: 10000;
+}
+
+.car-rcm-buttons {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.car-rcm-buttons button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.car-rcm-confirm {
+  background: #c62828;
+  color: white;
+  border: none;
+}
+.car-rcm-confirm:hover {
+  background: #c62828;
+  opacity: 0.5;
+}
